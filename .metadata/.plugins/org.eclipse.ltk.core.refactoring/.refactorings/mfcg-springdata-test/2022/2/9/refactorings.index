@@ -1,0 +1,19 @@
+1645450253463	Delete element
+1645450964453	Copy compilation unit
+1645450991283	Copy compilation unit
+1645451012684	Delete element
+1645463427927	Rename type 'OrderlinesRepository'
+1645463438437	Rename type 'OrdersRepository'
+1645463443897	Rename type 'ProductsRepository'
+1645463532627	Copy compilation unit
+1645463565150	Copy compilation unit
+1645470343454	Copy compilation unit
+1645481153580	Delete element
+1645481165791	Rename type 'MfSpringMigration2'
+1645481202523	Infer generic type arguments
+1645481416747	Delete element
+1645481422858	Delete element
+1645482172846	Copy compilation unit
+1645482217626	Rename field 'ordersRdbRepo'
+1645482225517	Rename field 'ordersNoSQLRepo'
+1645483329582	Copy compilation unit

@@ -1,0 +1,16 @@
+mf\pojogenerator\fromDAG\MfPojoGeneratorFromDag.class
+mf\classmetadata\odm\MfClassODMCustomization.class
+mf\classmetadata\ClassField.class
+mf\classmetadata\ClassMetadata.class
+mf\classmetadata\odm\MfHibernateODMCustomization.class
+mf\utils\GraphUtils.class
+mf\pojogenerator\fromDAG\RdbTypeEnum.class
+mf\classmetadata\Annotation.class
+mf\pojogenerator\MfPojoGenerator.class
+mf\classmetadata\ClassRelationshipFieldType.class
+mf\pojogenerator\fromDAG\RdbToJavaDatatypeDictionary$1.class
+mf\pojogenerator\fromJPAClass\JPAClassPojoGenerator.class
+mf\classmetadata\odm\MfSpringDataODMCustomization.class
+mf\pojogenerator\fromDAG\RdbToJavaDatatypeDictionary.class
+mf\classmetadata\ClassImport.class
+mf\migration\MfGenericMigration.class

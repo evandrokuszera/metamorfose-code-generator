@@ -1,0 +1,6 @@
+pojogenerator\PojoGen_FromDagSchema.class
+pojogenerator\PojoGen_FromDagEntity.class
+pojogenerator\PojoGen_Manual.class
+pojogenerator\PojoGen_OtlherClass.class
+pojogenerator\to_hibernate\ToHibernateOGM.class
+pojogenerator\to_spring\ToSpringData.class
