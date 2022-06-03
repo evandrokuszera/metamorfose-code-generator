@@ -22,7 +22,7 @@ import javax.persistence.Persistence;
 public class Main {
     public static void main(String[] args) {
         // ler do RDB
-        EntityManagerFactory emfRDB = Persistence.createEntityManagerFactory("hibernate-rdb");
+        EntityManagerFactory emfRDB = Persistence.createEntityManagerFactory("postgres-pu");
         EntityManager emRDB = emfRDB.createEntityManager();
         
         Orders orderRDB = emRDB.find(Orders.class, 1);

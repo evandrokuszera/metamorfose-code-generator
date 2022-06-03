@@ -1,8 +1,6 @@
 // Esta classe testa o PojoGeneratorFromDagSchema (que simplemente chama PojoGeneratorFromDagEntity para realizar o trabalho)
-// Entradas:
-// - um objeto NoSQLSchema
-// Saídas:
-// - um conjunto de classes geradas para cada entidade do NoSQLSchema, organizados por pacotes com o nome da entidade.
+// Entradas: - um objeto NoSQLSchema
+// Saídas: - um conjunto de classes geradas para cada entidade do NoSQLSchema, organizados por pacotes com o nome da entidade.
 
 package pojogenerator;
 

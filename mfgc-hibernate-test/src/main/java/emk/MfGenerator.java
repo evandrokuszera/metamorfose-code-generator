@@ -18,7 +18,7 @@ import mf.utils.GraphUtils;
  */
 public class MfGenerator {
     public static void main(String[] args) throws ClassNotFoundException, NoSuchFieldException, FileNotFoundException {
-        String path = "C:\\workspaces\\ws-metamorfose-codegenerator\\input-nosql-schema\\orders-db-schema.json";
+        String path = "..\\input-nosql-schema\\orders-db-schema.json";
         NoSQLSchema schema = GraphUtils.loadNosqlSchema(path);
         
         MfPojoGeneratorFromDag generator = new MfPojoGeneratorFromDag(
@@ -29,7 +29,6 @@ public class MfGenerator {
         
         MfPojoGeneratorFromDag.CLASS_PREFIX = "Doc";
         
-//        generator.generateAndSavePojosByNoSQLSchema("emk.collection");
-        generator.generateAndSavePojosByNoSQLSchema("emk.col");
+        generator.generateAndSavePojosByNoSQLSchema("emk.collection");
     }
 }

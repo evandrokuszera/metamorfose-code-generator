@@ -20,7 +20,6 @@ emk\collection\orderlines\DocOrders.class
 emk\HibernateConnection.class
 emk\rdb\Orderlines.class
 emk\migration\generic\test\OrderMigration.class
-emk\MfGenerator2.class
 emk\migration\simple\SimpleMigrationExample_testando_modelmapper$1.class
 emk\rdb\Orders.class
 emk\collection\products\DocProducts.class
