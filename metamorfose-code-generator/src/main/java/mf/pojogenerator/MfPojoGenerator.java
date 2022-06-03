@@ -15,6 +15,7 @@ import mf.classmetadata.Annotation;
 import mf.classmetadata.ClassField;
 import mf.classmetadata.ClassImport;
 import mf.classmetadata.ClassMetadata;
+import mf.classmetadata.ClassRelationshipFieldType;
 
 /**
  *
@@ -94,6 +95,20 @@ public abstract class MfPojoGenerator {
     private static void addClassPrefix(ClassMetadata classMeta){
         if (CLASS_PREFIX != null){
             classMeta.setName( CLASS_PREFIX + classMeta.getName() );
+            
+            for (ClassField field : classMeta.getFields()){
+                if (field.getRelationshipType() == ClassRelationshipFieldType.OBJECT){
+                    field.setType(CLASS_PREFIX + field.getType());
+                } else if (field.getRelationshipType() == ClassRelationshipFieldType.ARRAY_OF_OBJECTS){
+                    
+                    String temp = field.getType()
+                            .replace("java.util.List<", "")
+                            .replace(">", "");
+                    
+                    field.setType( field.getType().replace(temp, CLASS_PREFIX + temp) );
+                    
+                }
+            }
         }
     }
     
