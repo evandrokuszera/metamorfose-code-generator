@@ -1,0 +1,21 @@
+
+schema {
+  dag,
+  customization,
+  generate{
+    dag --> classes --> customization --> classes --> schema
+  }
+}
+
+schema1 = generator(dag, customization1, postgres);
+schema2 = generator(dag, customization2, postgres);
+schema1.save();
+schema2.save();
+
+mapper {
+  schema1,
+  schema2,
+  generate { 
+    [schema1, schema2] --> mapper --> mapping
+  }
+}

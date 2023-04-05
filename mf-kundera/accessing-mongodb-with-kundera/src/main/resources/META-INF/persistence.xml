@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence  https://raw.github.com/impetus-opensource/Kundera/Kundera-2.0.4/kundera-core/src/test/resources/META-INF/persistence_2_0.xsd">
+  <persistence-unit name="mongo_pu">
+    <provider>com.impetus.kundera.KunderaPersistence</provider>
+    <class>mf.ku.model.nosql.categories.Categories</class>
+    <class>mf.ku.model.nosql.customers.Customers</class>
+    <class>mf.ku.model.nosql.orders.Orders</class>
+    <class>mf.ku.model.nosql.orders.Orderlines</class>
+    <class>mf.ku.model.nosql.products.Products</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="kundera.nodes" value="localhost"/>
+      <property name="kundera.port" value="27017"/>
+      <property name="kundera.keyspace" value="dvd-store-ku-temp"/>
+      <property name="kundera.dialect" value="mongodb"/>
+      <property name="kundera.ddl.auto.prepare" value="update" /> 
+      <!--<property name="kundera.ddl.auto.prepare" value="create" />--> 
+      <property name="kundera.client.lookup.class" value="com.impetus.client.mongodb.MongoDBClientFactory"/>
+      <property name="kundera.pool.size.min.idle" value="10"/>
+      <property name="kundera.pool.size.max.active" value="100"/>
+      <property name="kundera.pool.size.max.total" value="500"/>
+    </properties>
+  </persistence-unit>
+</persistence>
