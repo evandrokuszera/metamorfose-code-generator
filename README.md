@@ -20,43 +20,30 @@ git clone https://github.com/evandrokuszera/nosql-query-based-metrics.git
 
 ## How to use the MfCodeGenerator
 The steps required to use MfCodeGenerator are:
-1 - Clone the MfCodeGenerator repository and its dependencies.
-2 - Create a new Java project and add the dependecies for MfCodeGenerator, MongoDB and the target ONM (Impetus Kundera, Data Nucleus or Spring Data).
-3 - Create a new class with code below, then runs it.
+- `Step 1`: Clone the MfCodeGenerator repository and its dependencies.
+- `Step 2`: Create a new Java project and add the dependecies for MfCodeGenerator, MongoDB and the target ONM (Impetus Kundera, Data Nucleus or Spring Data).
+- `Step 3`: Create a new class with code below, then runs it.
 
 ```Java
 public class Generator {
-    // Path of NoSQL schema file
-    String path = "..\\..\\input-nosql-schema\\dvd-store.json";
-    
-    public NoSQLSchema getNoSQLSchema(){
-        return GraphUtils.loadNosqlSchema(path);
-    }
-    
-    public void generate() throws FileNotFoundException{
-        // Creating schema generator object
-        MfDagSchemaGenerator schemaCodeGenerator = new MfDagSchemaGenerator(
-                getNoSQLSchema(), 
-                new MfDataNucleusMongoCustomization(), // or MfKunderaMongoCustomization() or MfSpringMongoCustomization()
-                RdbTypeEnum.POSTGRES
-        );
-        // Generating the schema with its respective entities and related Java code.
-        // The parameter is the target package where the code will be save.
-        schemaCodeGenerator.generate("mf.dn.model.nosql", null);
-        
-        // Uncomment the line below to inspect the generated schema.
+    public static void main(String[] args) throws FileNotFoundException {
+        // Path of NoSQL schema file
+        String path = "..\\..\\input-nosql-schema\\dvd-store.json";
+        // Loading the NoSQL Schema from disk
+        NoSQLSchema schema = GraphUtils.loadNosqlSchema(path);
+        // Configuring the schema generator for generating Java classe from the schema using Kundera ODM
+        MfSchemaGenerator schemaCodeGenerator = new MfDagSchemaGenerator(
+                schema, 
+                new MfKunderaMongoCustomization(), // or MfDataNucleusMongoCustomization() or MfSpringMongoCustomization()
+                RdbTypeEnum.POSTGRES);
+        // Generating the schema in memory (parameter = target package for the classes).
+        schemaCodeGenerator.generate("mf.ku.model.nosql");
+        // Uncomment the line bellow to inspect the generated schema
         // schemaCodeGenerator.getMfSchema();
-        
         // Uncomment the line below to print the schema
         // schemaCodeGenerator.printSchema();
-        
         // Saving the code into the disk.
         schemaCodeGenerator.saveFiles();
-    }
-    
-    public static void main(String[] args) throws FileNotFoundException {
-        Generator generator = new Generator();
-        generator.generate();
     }
 }
 ```
@@ -64,7 +51,7 @@ public class Generator {
 The result is a set of annotated Java classes that follows the NoSQL Schema structure. After that, the developer is able of accces the NoSQL database.
 
 ## Subprojects
-The subprojects mf-datanucleus, mf-kundera and mf-springdata illustrate how to use the MfCodeGenerator for ONMs. We use the NoSQL schema of the figure above and generate code to access a MongoDB database (the data of collections are in input-nosql-schema folder).
+The subprojects mf-datanucleus, mf-kundera and mf-springdata illustrate how to use the MfCodeGenerator for ONMs. They use the NoSQL schema of the figure above and generate code to access a MongoDB database. To test the generated code we used the data in the folder [\input-nosql-schema folder](https://github.com/evandrokuszera/metamorfose-code-generator/tree/main/input-nosql-schema) to create a MongoDB database.
 
 ## Technologies
 Java, ONM, Impetus Kundera, Data Nucleus, Spring Data, MongoDB.
