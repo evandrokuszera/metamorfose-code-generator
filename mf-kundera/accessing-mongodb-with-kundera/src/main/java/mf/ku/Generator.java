@@ -21,19 +21,22 @@ import mf.utils.GraphUtils;
  */
 public class Generator {
     public static void main(String[] args) throws FileNotFoundException {
-        
+        // Path of NoSQL schema file
         String path = "..\\..\\input-nosql-schema\\dvd-store.json";
-        
+        // Loading the NoSQL Schema from disk
         NoSQLSchema schema = GraphUtils.loadNosqlSchema(path);
-        
-        MfSchemaGenerator generator = new MfDagSchemaGenerator(
+        // Configuring the schema generator for generating Java classe from the schema using Kundera ODM
+        MfSchemaGenerator schemaCodeGenerator = new MfDagSchemaGenerator(
                 schema, 
-                new MfKunderaMongoCustomization(), 
+                new MfKunderaMongoCustomization(), // or MfDataNucleusMongoCustomization() or MfSpringMongoCustomization()
                 RdbTypeEnum.POSTGRES);
-        
-        generator.generate("mf.ku.model.nosql");
-        // targetSchema.getMfSchema();
-        // targetSchema.printSchema();
-        generator.saveFiles();
+        // Generating the schema in memory (parameter = target package for the classes).
+        schemaCodeGenerator.generate("mf.ku.model.nosql");
+        // Uncomment the line bellow to inspect the generated schema
+        // schemaCodeGenerator.getMfSchema();
+        // Uncomment the line below to print the schema
+        // schemaCodeGenerator.printSchema();
+        // Saving the code into the disk.
+        schemaCodeGenerator.saveFiles();
     }
 }

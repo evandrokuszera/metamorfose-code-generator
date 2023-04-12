@@ -13,28 +13,23 @@ import mf.schema.MfDagSchemaGenerator;
 import mf.utils.GraphUtils;
 
 public class Generator {
-    String path = "..\\..\\input-nosql-schema\\dvd-store.json";
-    
-    public NoSQLSchema getNoSQLSchema(){
-        return GraphUtils.loadNosqlSchema(path);
-    }
-    
-    public static void main(String[] args) throws FileNotFoundException {
-        Generator gerador = new Generator();
-        gerador.gerar();
-    }
-    
-    
-    public void gerar() throws FileNotFoundException{
-        // Fase 1 =========================================================================
-        MfDagSchemaGenerator targetSchema = new MfDagSchemaGenerator(
-                getNoSQLSchema(), 
-                new MfDataNucleusMongoCustomization(), 
-                RdbTypeEnum.POSTGRES
-        );
-        targetSchema.generate("mf.dn.model.nosql", null);
-        // targetSchema.getMfSchema();
-        // targetSchema.printSchema();
-        targetSchema.saveFiles();
+    public static void main(String[] args) throws FileNotFoundException{
+        // Path of NoSQL schema file
+        String path = "..\\..\\input-nosql-schema\\dvd-store.json";
+        // Loading the NoSQL Schema from disk
+        NoSQLSchema schema = GraphUtils.loadNosqlSchema(path);
+        // Configuring the schema generator for generating Java classe from the schema using Data Nucleus ODM
+        MfDagSchemaGenerator schemaCodeGenerator = new MfDagSchemaGenerator(
+                schema, 
+                new MfDataNucleusMongoCustomization(), // or MfKunderaMongoCustomization() or MfSpringMongoCustomization()
+                RdbTypeEnum.POSTGRES);
+        // Generating the schema in memory (parameter = target package for the classes).
+        schemaCodeGenerator.generate("mf.dn.model.nosql");
+        // Uncomment the line bellow to inspect the generated schema
+        // schemaCodeGenerator.getMfSchema();
+        // Uncomment the line below to print the schema
+        // schemaCodeGenerator.printSchema();
+        // Saving the code into the disk.
+        schemaCodeGenerator.saveFiles();
     }
 }

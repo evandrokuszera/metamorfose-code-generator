@@ -33,18 +33,17 @@ public class SpringDataApplication implements CommandLineRunner {
     // Generating classes for NoSQL Schema (DAG)
     // **********************************************************************
     public void codeGen() throws FileNotFoundException {
-
-        // loading the NoSQL Schema from disk
+        // Loading the NoSQL Schema from disk
         String path = "..\\..\\input-nosql-schema\\dvd-store.json";
         NoSQLSchema nosqlSchema = GraphUtils.loadNosqlSchema(path);
 
-        // configuring the schema generator for generating Java classe from the schema using Spring Data ODM
+        // Configuring the schema generator for generating Java classe from the schema using Spring Data ODM
         MfDagSchemaGenerator targetSchemaSpring = new MfDagSchemaGenerator(
                 nosqlSchema,
                 new MfSpringMongoCustomization(),
                 RdbTypeEnum.POSTGRES
         );
-        // generating the Java classes in the target package
+        // Generating the schema in memory (parameter = target package for the classes).
         targetSchemaSpring.generate("mf.sd.model.nosql", null);
         // targetSchemaSpring.getMfSchema();
         // targetSchemaSpring.printSchema();
