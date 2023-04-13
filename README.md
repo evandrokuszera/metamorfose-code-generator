@@ -4,7 +4,7 @@
 MfCodeGenerator is a tool that generates Java code according to a NoSQL Schema and ONM (Object-NoSQL Mapper) requirements. The generated code can be used by developers to access the NoSQL database, alleviating the overhead of the coding task.
 
 ### MfCodeGenerator Overview Architecture
-MfCodeGenerator takes as input the NoSQL schema and an ONM config, and generates as result ONM code (annotated Java classes) to access data in NoSQL database. The figure below shows the execution flow of the tool. The developers can use the generated code in a Java project to write and read data in NoSQL database. Currently, the MfCodeGenerator has support for Spring Data, Impetus Kundera and Data Nucleus and the target NoSQL database is MongoDB. However, it can be extended to support new ONMs and databases.
+The figure below shows the execution flow of the tool. MfCodeGenerator takes as input the NoSQL schema and generates a set of Java classes according to the structure of schema (1). Then, the set of classes is enriched with imports, annotations and fields accordind to the ONM config (2). Finally, the code is save into the disk and the developers can use it in a Java project to write and read data in NoSQL database (3). Currently, the MfCodeGenerator has support for Spring Data, Impetus Kundera and Data Nucleus, and the target NoSQL database is MongoDB.
 
 <p align="center">
 <img src="https://github.com/evandrokuszera/metamorfose-code-generator/blob/main/figures/architecture.png" width="700" height="200" />
