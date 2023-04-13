@@ -3,16 +3,18 @@
 ## Description
 MfCodeGenerator is a tool that generates Java code according to a NoSQL Schema, then enriched the generated code with ONM (Object-NoSQL Mapper) support. To represent the NoSQL Schema we use a Direct Acyclic Graph, in which the vertices and edges represent the structure of the entity. Each entity has a root vertex and can has nested vertices. The edges are used to define relationships between entity elements and to define relationships between entities in a NoSQL schema.
 
+### NoSQL Schema
 The figure below shows a schema for a document store. There are four collections of documents, being Customers, Orders, Products and Categories. There are reference and nesting relationships, e.g. Customers and Orders have  a one-to-many reference relationship, and Orders and Orderlines have a one-to-many nesting relationship.
 
-FIGURE
+<img src="https://github.com/evandrokuszera/metamorfose-code-generator/blob/main/figures/nosql_schema.png" width="700" height="150" />
 
+### MfCodeGenerator Architecture
 MfCodeGenerator takes as input the NoSQL schema and an ONM config, and generates as result ONM code (annotated Java classes) to access data in NoSQL database. The figure below shows the execution flow of the tool. The developers can use the classes in a Java project to write and read data in NoSQL database. Currently, the MfCodeGenerator has support for Spring Data, Impetus Kundera and Data Nucleus and the target NoSQL database is MongoDB. However, it can be extended to support new ONMs and databases.
 
-FIGURE
+<img src="https://github.com/evandrokuszera/metamorfose-code-generator/blob/main/figures/architecture.png" width="700" height="200" />
 
 ## Dependencies
-MfCodeGenerator depend on the QBMetrics project, that defines a NoSQL Schema using Direct Acyclic Graphs. The repository of QBMetrics can be access in [NoSQL Query-Based Metrics](https://github.com/evandrokuszera/nosql-query-based-metrics).
+MfCodeGenerator depends on the QBMetrics project, that defines a NoSQL Schema using Direct Acyclic Graphs. The repository of QBMetrics can be access in [NoSQL Query-Based Metrics](https://github.com/evandrokuszera/nosql-query-based-metrics).
 
 ```
 git clone https://github.com/evandrokuszera/nosql-query-based-metrics.git
@@ -50,8 +52,14 @@ public class Generator {
 
 The result is a set of annotated Java classes that follows the NoSQL Schema structure. After that, the developer is able of accces the NoSQL database.
 
-## Subprojects
-The subprojects mf-datanucleus, mf-kundera and mf-springdata illustrate how to use the MfCodeGenerator for ONMs. They use the NoSQL schema of the figure above and generate code to access a MongoDB database. To test the generated code we used the data in the folder [\input-nosql-schema folder](https://github.com/evandrokuszera/metamorfose-code-generator/tree/main/input-nosql-schema) to create a MongoDB database.
+## Structure of repository
+- `input-nosql-schema`: the NoSQL schema and the data (collections of documents) used to evaluate the MfCodeGeneratorClone.
+- `mf-kundera`: a Java project that illustrate how to use the MfCodeGenerator for Impetus Kundera.
+- `mf-datanucleus`: a Java project that illustrate how to use the MfCodeGenerator for Data Nucleus.
+- `mf-springdata`: a Java project that illustrate how to use the MfCodeGenerator for Spring Data.
+
+The Java projects use the NoSQL schema of the figure above to generate annotated Java classes to access the MongoDB database. 
+Before run the code, it is necessary to create a MongoDB database and import the data from [\input-nosql-schema](https://github.com/evandrokuszera/metamorfose-code-generator/tree/main/input-nosql-schema).
 
 ## Technologies
 Java, ONM, Impetus Kundera, Data Nucleus, Spring Data, MongoDB.
