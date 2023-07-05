@@ -1,18 +1,25 @@
 # Metamorfose-Code-Generator
 
 ## Description
-MfCodeGenerator is a tool that generates Java code according to a NoSQL Schema, then enriched the generated code with ONM (Object-NoSQL Mapper) support. To represent the NoSQL Schema we use a Direct Acyclic Graph, in which the vertices and edges represent the structure of the entity. Each entity has a root vertex and can has nested vertices. The edges are used to define relationships between entity elements and to define relationships between entities in a NoSQL schema.
+MfCodeGenerator is a tool that generates Java code according to a NoSQL Schema and ONM (Object-NoSQL Mapper) requirements. The generated code can be used by developers to access the NoSQL database, alleviating the overhead of the coding task.
 
-The figure below shows a schema for a document store. There are four collections of documents, being Customers, Orders, Products and Categories. There are reference and nesting relationships, e.g. Customers and Orders have  a one-to-many reference relationship, and Orders and Orderlines have a one-to-many nesting relationship.
+### MfCodeGenerator Overview Architecture
+The figure below shows the execution flow of the tool. MfCodeGenerator takes as input the NoSQL schema and generates a set of Java classes according to the structure of schema (1). Then, the set of classes is enriched with imports, annotations and fields accordind to the ONM config (2). Finally, the code is save into the disk and the developers can use it in a Java project to write and read data in NoSQL database (3). Currently, the MfCodeGenerator has support for Spring Data, Impetus Kundera and Data Nucleus, and the target NoSQL database is MongoDB.
 
-FIGURE
+<p align="center">
+<img src="https://github.com/evandrokuszera/metamorfose-code-generator/blob/main/figures/architecture.png" width="700" height="200" />
+</p>
 
-MfCodeGenerator takes as input the NoSQL schema and an ONM config, and generates as result ONM code (annotated Java classes) to access data in NoSQL database. The figure below shows the execution flow of the tool. The developers can use the classes in a Java project to write and read data in NoSQL database. Currently, the MfCodeGenerator has support for Spring Data, Impetus Kundera and Data Nucleus and the target NoSQL database is MongoDB. However, it can be extended to support new ONMs and databases.
+### NoSQL Schema
+To represent the NoSQL Schema is used a Directed Acyclic Graph (DAG), in which the vertices and edges represent the structure of the entity. Each entity has a root vertex and can have nested vertices. The edges are used to define relationships between entity elements and to define relationships between entities in a NoSQL schema.
+The figure below shows a schema for a document store with four entities or collections of documents (blue background color): <i>Customers</i>, <i>Orders</i>, <i>Products</i> and <i>Categories</i>. There are reference and nesting relationships, e.g. <i>Customers</i> and <i>Orders</i> have  a one-to-many reference relationship, and <i>Orders</i> and <i>Orderlines</i> have a one-to-many nesting relationship, in which <i>Orders</i> is composed by <i>Orderlines</i> documents.
 
-FIGURE
-
+<p align="center">
+<img src="https://github.com/evandrokuszera/metamorfose-code-generator/blob/main/figures/nosql_schema.png" width="700" height="150" />
+</p>
+    
 ## Dependencies
-MfCodeGenerator depend on the QBMetrics project, that defines a NoSQL Schema using Direct Acyclic Graphs. The repository of QBMetrics can be access in [NoSQL Query-Based Metrics](https://github.com/evandrokuszera/nosql-query-based-metrics).
+MfCodeGenerator depends on the QBMetrics project, that provides the libraries to define a NoSQL Schema using DAGs. The repository of QBMetrics can be access in [NoSQL Query-Based Metrics](https://github.com/evandrokuszera/nosql-query-based-metrics).
 
 ```
 git clone https://github.com/evandrokuszera/nosql-query-based-metrics.git
@@ -36,7 +43,7 @@ public class Generator {
                 schema, 
                 new MfKunderaMongoCustomization(), // or MfDataNucleusMongoCustomization() or MfSpringMongoCustomization()
                 RdbTypeEnum.POSTGRES);
-        // Generating the schema in memory (parameter = target package for the classes).
+        // Generating the schema in memory (string parameter = target package for the classes).
         schemaCodeGenerator.generate("mf.ku.model.nosql");
         // Uncomment the line bellow to inspect the generated schema
         // schemaCodeGenerator.getMfSchema();
@@ -48,10 +55,17 @@ public class Generator {
 }
 ```
 
-The result is a set of annotated Java classes that follows the NoSQL Schema structure. After that, the developer is able of accces the NoSQL database.
+The result of the execution of the code above is a set of annotated Java classes that follows the NoSQL Schema structure. 
+After that, the developer can use the classes to acccess the NoSQL database.
 
-## Subprojects
-The subprojects mf-datanucleus, mf-kundera and mf-springdata illustrate how to use the MfCodeGenerator for ONMs. They use the NoSQL schema of the figure above and generate code to access a MongoDB database. To test the generated code we used the data in the folder [\input-nosql-schema folder](https://github.com/evandrokuszera/metamorfose-code-generator/tree/main/input-nosql-schema) to create a MongoDB database.
+## Structure of Repository
+- `input-nosql-schema`: the NoSQL schema and the data (collections of documents) used to evaluate the MfCodeGenerator.
+- `mf-kundera`: a Java project that illustrate how to use the MfCodeGenerator for Impetus Kundera.
+- `mf-datanucleus`: a Java project that illustrate how to use the MfCodeGenerator for Data Nucleus.
+- `mf-springdata`: a Java project that illustrate how to use the MfCodeGenerator for Spring Data.
+
+The NoSQL schema of figure above is used to illustrate the MfCodeGenerator for Impetus Kundera, Data Nucleus and Spring Data. 
+Before run the code, it is necessary to create a MongoDB database and import the data from [\input-nosql-schema](https://github.com/evandrokuszera/metamorfose-code-generator/tree/main/input-nosql-schema). The result is a database with <i>Customers</i>, <i>Orders</i>, <i>Products</i> and <i>Categories</i> collections of documents.
 
 ## Technologies
-Java, ONM, Impetus Kundera, Data Nucleus, Spring Data, MongoDB.
+Java 15, MongoDB, ONM, Impetus Kundera 3.13, Data Nucleus 6.0, Spring Data 3.03.
