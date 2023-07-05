@@ -5,6 +5,7 @@
  */
 package mf.customization.kundera;
 
+import java.util.ArrayList;
 import mf.classmetadata.Annotation;
 import mf.classmetadata.ClassField;
 import mf.classmetadata.ClassImport;
@@ -96,6 +97,8 @@ public class MfKunderaMongoCustomization extends MfClassCustomization {
     @Override
     public MfSchema applyCustomizationsTo(MfSchema schema) {
         
+        ArrayList<ClassField> listOfFieldsAlreadyProcessed = new ArrayList<>();
+        
         // Adding annotations and imports to establish relationship (References) between Entities of the schema.
         for (MfRelationship rel : schema.getRelationships()){
             // Retrieving the ClassMetadata of the relationship (type reference)
@@ -109,16 +112,18 @@ public class MfKunderaMongoCustomization extends MfClassCustomization {
             
             // In the one side, if the relationship between classes is of type ARRAY_OF_OBJECTS, then
             for (ClassField clazzField : onesideClazz.getFields()) {
-                if (clazzField.getRelationshipType() == ClassRelationshipFieldType.ARRAY_OF_OBJECTS){
+                if (clazzField.getRelationshipType() == ClassRelationshipFieldType.ARRAY_OF_OBJECTS && !listOfFieldsAlreadyProcessed.contains(clazzField)){
                     clazzField.getAnnotations().add(new Annotation("@OneToMany(mappedBy=\"" + clazzField.getRefForeignFieldName() + "\")"));
+                    listOfFieldsAlreadyProcessed.add(clazzField);
                 }
             }
             
             // In the many side, if the relationship between classes is of type OBJECT, then
             for (ClassField clazzField : manysideClazz.getFields()) {
-                if (clazzField.getRelationshipType() == ClassRelationshipFieldType.OBJECT){
+                if (clazzField.getRelationshipType() == ClassRelationshipFieldType.OBJECT && !listOfFieldsAlreadyProcessed.contains(clazzField)){
                     clazzField.getAnnotations().add(new Annotation("@ManyToOne"));
                     clazzField.getAnnotations().add(new Annotation("@JoinColumn(name=\"" + clazzField.getRefLocalFieldName() + "\")"));
+                    listOfFieldsAlreadyProcessed.add(clazzField);
                 }
             }
         }

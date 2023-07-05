@@ -5,6 +5,7 @@
  */
 package mf.customization.spring;
 
+import java.util.ArrayList;
 import mf.classmetadata.Annotation;
 import mf.classmetadata.ClassField;
 import mf.classmetadata.ClassImport;
@@ -73,6 +74,8 @@ public class MfSpringMongoCustomization extends MfClassCustomization {
     @Override
     public MfSchema applyCustomizationsTo(MfSchema schema) {
         
+        ArrayList<ClassField> listOfFieldsAlreadyProcessed = new ArrayList<>();
+        
         for (MfRelationship rel : schema.getRelationships()){
             // Retrieving the ClassMetadata of the relationship (type reference)
             ClassMetadata onesideClazz = rel.getOneSideClassMetadata();
@@ -85,7 +88,7 @@ public class MfSpringMongoCustomization extends MfClassCustomization {
             
             // If the relationship between classes is of type ARRAY_OF_OBJECTS, then add "DocumentReference" annotation of type ReadOnlyProperty
             for (ClassField clazzField : onesideClazz.getFields()) {
-                if (clazzField.getRelationshipType() == ClassRelationshipFieldType.ARRAY_OF_OBJECTS){
+                if (clazzField.getRelationshipType() == ClassRelationshipFieldType.ARRAY_OF_OBJECTS && !listOfFieldsAlreadyProcessed.contains(clazzField)){
                     clazzField.getAnnotations().add(new Annotation("@ReadOnlyProperty"));
                     clazzField.getAnnotations().add(
                             new Annotation(
@@ -95,12 +98,14 @@ public class MfSpringMongoCustomization extends MfClassCustomization {
                                     )
                             )
                     );
+                    
+                    listOfFieldsAlreadyProcessed.add(clazzField);
                 }
             }
             
             // If the relationship between classes is of type OBJECT, then add "DocumentReference" annotation
             for (ClassField clazzField : manysideClazz.getFields()) {
-                if (clazzField.getRelationshipType() == ClassRelationshipFieldType.OBJECT){
+                if (clazzField.getRelationshipType() == ClassRelationshipFieldType.OBJECT && !listOfFieldsAlreadyProcessed.contains(clazzField)){
                     clazzField.getAnnotations().add(
                             new Annotation(
 //                                    String.format("@DocumentReference(lookup = \"{ '%s' : ?#{%s} }\")",
@@ -110,6 +115,8 @@ public class MfSpringMongoCustomization extends MfClassCustomization {
                                     )
                             )
                     );
+                    
+                    listOfFieldsAlreadyProcessed.add(clazzField);
                 }
             }
         }

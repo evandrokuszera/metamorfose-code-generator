@@ -138,7 +138,8 @@ public class MfDagEntityGenerator {
             
             ClassField newField = new ClassField();
             newField.setModifier("private");
-            newField.setName(predecessorVertex.getTableName());
+//            newField.setName(predecessorVertex.getTableName());
+            newField.setName(predecessorVertex.getName());
             
             if (edge.getManySideEntity().equals(predecessorVertex.getTableName())){
                 newField.setType("java.util.List<" + getStringWithFirstCapitalLetter(predecessorVertex.getTableName()) + ">");

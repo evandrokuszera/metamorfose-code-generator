@@ -29,6 +29,11 @@ public class MfDagSchemaGenerator extends MfSchemaGenerator {
         super(noSQLschema, classODMCustomization, typeRDBDictionary);
     }
     
+    public void generate(String packageBaseName, String optionSubPackageName){
+        this.auxSubPackageName = optionSubPackageName;
+        generate(packageBaseName);
+    }
+    
     public void generate(String packageBaseName){
         this.newMfSchema();
         
@@ -50,7 +55,7 @@ public class MfDagSchemaGenerator extends MfSchemaGenerator {
         
         System.out.println("MfDagSchemaGenerator.generate(): entities OK");
         
-        // For each relationship (References) between entities in the DAG schema...
+        // For each relationship of type REFERENCING between entities in the DAG schema...
         for (RelationshipEdge refEdge : this.getNoSQLschema().getRefEntities()){
             // Creating a relationship object.
             MfRelationship relationship = new MfRelationship();
@@ -64,7 +69,7 @@ public class MfDagSchemaGenerator extends MfSchemaGenerator {
             // Add the relationship to the MfSchema
             this.getMfSchema().getRelationships().add(relationship);
             // Adding fields to one and many ClassMetadata objects, to establish the relationship
-            addRefRelationshipFieldsToClass(relationship);
+            addRefRelationshipFieldsToClass(relationship, refEdge);
         }
         
         // Applying customizations after creating the schema.
@@ -77,29 +82,18 @@ public class MfDagSchemaGenerator extends MfSchemaGenerator {
         
     }
     
-    public void generate(String packageBaseName, String optionSubPackageName){
-        this.auxSubPackageName = optionSubPackageName;
-        generate(packageBaseName);
-    }
-    
-    // Build a package name based on the pattern: package + entity name + subpackage
-    private String buildPackageName(String packageBaseName, DirectedAcyclicGraph<TableVertex, RelationshipEdge> entity){
-        String packageName = packageBaseName + "." + MfDagEntityGenerator.getRootVertex(entity).getTableName(); // getting the entity name as the Root Vertex of the entity graph
-        if (auxSubPackageName != null && auxSubPackageName.length() > 0) {
-            packageName += "." + auxSubPackageName;
-        }
-        return packageName;
-    }
-    
-    private void addRefRelationshipFieldsToClass(MfRelationship relationship){
+    private void addRefRelationshipFieldsToClass(MfRelationship relationship, RelationshipEdge refEdge){
         ClassMetadata one = relationship.getOneSideClassMetadata();
         ClassMetadata many = relationship.getManySideClassMetadata();
+        
+        String nameOfOneSideAttribute = this.getNoSQLschema().getTableVertexById(refEdge.getOneSideEntityId()).getName();
+        String nameOfManySideAttribute = this.getNoSQLschema().getTableVertexById(refEdge.getManySideEntityId()).getName();
                     
         // Adding field to side ONE
         ClassField oneField = new ClassField();
         oneField.setModifier("private");
         oneField.setType("java.util.List<" + getStringWithFirstCapitalLetter(many.getName()) + ">");
-        oneField.setName(many.getName().toLowerCase());
+        oneField.setName(nameOfManySideAttribute); //        oneField.setName(many.getName().toLowerCase());
         oneField.setRelationshipType(ClassRelationshipFieldType.ARRAY_OF_OBJECTS);
         oneField.setRefLocalFieldName(relationship.getPkOneSide());
         oneField.setRefForeignFieldName(relationship.getFkManySide());
@@ -109,7 +103,7 @@ public class MfDagSchemaGenerator extends MfSchemaGenerator {
         ClassField manyField = new ClassField();
         manyField.setModifier("private");
         manyField.setType( getStringWithFirstCapitalLetter(one.getName()) );
-        manyField.setName(one.getName().toLowerCase());
+        manyField.setName(nameOfOneSideAttribute); //        manyField.setName(one.getName().toLowerCase());
         manyField.setRelationshipType(ClassRelationshipFieldType.OBJECT);
         manyField.setRefLocalFieldName(relationship.getFkManySide());
         manyField.setRefForeignFieldName(relationship.getPkOneSide());
@@ -120,5 +114,13 @@ public class MfDagSchemaGenerator extends MfSchemaGenerator {
         many.getImports().add(new ClassImport(one.getPackageName()+"."+one.getName()));
     }
     
+    // Build a package name based on the pattern: package + entity name + subpackage
+    private String buildPackageName(String packageBaseName, DirectedAcyclicGraph<TableVertex, RelationshipEdge> entity){
+        String packageName = packageBaseName + "." + MfDagEntityGenerator.getRootVertex(entity).getTableName(); // getting the entity name as the Root Vertex of the entity graph
+        if (auxSubPackageName != null && auxSubPackageName.length() > 0) {
+            packageName += "." + auxSubPackageName;
+        }
+        return packageName;
+    }
     
 }
