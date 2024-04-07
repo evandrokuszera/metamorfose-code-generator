@@ -2,6 +2,7 @@ package mf.sd.model.nosql.orders;
 
 import java.util.Date;
 import mf.sd.model.nosql.products.Products;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 public class Orderlines {
@@ -10,8 +11,9 @@ public class Orderlines {
     private Integer prod_id;
     private Integer quantity;
     private Date orderlinedate;
-    @DocumentReference(lookup =
-       "{'id_prod':?#{prod_id}}")
+//    @DocumentReference(lookup =
+//       "{'id_prod':?#{prod_id}}")
+    @DBRef
     private Products products;
     // getters and setters
 

@@ -12,8 +12,8 @@ public class Orderlines{
 	private java.lang.Integer prod_id;
 	private java.lang.Integer quantity;
 	private java.util.Date orderlinedate;
-	@ManyToOne
-	@JoinColumn(name="prod_id")
+//	@ManyToOne
+//	@JoinColumn(name="prod_id")
 	private Products products;
 	public java.lang.Integer getOrderlineid(){
 		return orderlineid;

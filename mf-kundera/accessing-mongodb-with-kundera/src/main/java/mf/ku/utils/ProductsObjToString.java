@@ -57,7 +57,7 @@ public class ProductsObjToString {
                 ", \"prod_id\":" + l.getProd_id() + 
                 ", \"quantity\":" + l.getQuantity() + 
                 ", \"orderlinedate\":\"" + l.getOrderlinedate() + 
-                "},";
+                "\"},";
         }
         msg += "]";
         return msg;

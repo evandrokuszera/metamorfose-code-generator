@@ -50,8 +50,8 @@ public class OrdersObjToString {
             ", \"email\":\"" + c.getEmail() + 
             "\", \"phone\":" + c.getPhone() + 
             ", \"creditcardtype\":" + c.getCreditcardtype() + 
-            ", \"creditcard\":" + c.getCreditcard() + 
-            ", \"creditcardexpiration\":\"" + c.getCreditcardexpiration() + 
+            ", \"creditcard\":\"" + c.getCreditcard() + 
+            "\", \"creditcardexpiration\":\"" + c.getCreditcardexpiration() + 
             "\", \"username\":\"" + c.getUsername() + 
             "\", \"password\":\"" + c.getPassword() + 
             "\", \"age\":" + c.getAge() + 

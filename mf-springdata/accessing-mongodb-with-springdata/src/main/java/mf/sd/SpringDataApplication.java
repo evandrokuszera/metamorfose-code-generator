@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import mf.customization.spring.MfSpringMongoCustomization;
 import mf.generator.RdbTypeEnum;
 import mf.schema.MfDagSchemaGenerator;
-import mf.sd.run.SpringQueries;
-import mf.sd.run.SpringCRUDQueries;
+import mf.sd.run.RunCrudQueries;
+import mf.sd.run.RunFindQueries;
 import mf.utils.GraphUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,8 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SpringDataApplication implements CommandLineRunner {
-    @Autowired private SpringQueries runQueries;
-    @Autowired private SpringCRUDQueries crudQueries;
+    @Autowired private RunFindQueries runQueries;
+    @Autowired private RunCrudQueries crudQueries;
     
     public static void main(String[] args) {
         SpringApplication.run(SpringDataApplication.class, args);
@@ -25,8 +25,8 @@ public class SpringDataApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 //        codeGen();
-//        runQueries.run();
         crudQueries.run();
+//        runQueries.run();
     }
 
     // **********************************************************************

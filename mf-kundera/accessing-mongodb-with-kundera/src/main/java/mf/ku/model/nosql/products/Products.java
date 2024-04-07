@@ -1,5 +1,6 @@
 package mf.ku.model.nosql.products;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.Embedded;
@@ -20,7 +21,8 @@ public class Products{
 	private Inventory inventory;
 	@Embedded
 	private Categories categories;
-	@OneToMany(mappedBy="prod_id")
+	//@OneToMany(mappedBy="prod_id")
+        @ElementCollection
 	private java.util.List<Orderlines> orderlines;
 	public java.lang.Integer getId_prod(){
 		return id_prod;

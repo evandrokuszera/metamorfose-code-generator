@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import mf.sd.model.nosql.orders.Orderlines;
 import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document(collection = "Products")
@@ -14,9 +15,9 @@ public class Products {
     private Integer id_prod;
     private Inventory inventory;
     private Categories categories;
-    @ReadOnlyProperty
-    @DocumentReference(lookup = 
-       "{'prod_id':?#{#self.id_prod}}")
+//    @ReadOnlyProperty
+//    @DocumentReference(lookup = 
+//       "{'prod_id':?#{#self.id_prod}}")
     private List<Orderlines> orderlines;
     // remaining fields,
     //  getters and setters

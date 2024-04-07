@@ -1,3 +1,5 @@
 /.metadata
 /gitignore_other_projects
 /metamorfose-code-generator/target/
+/mf-datanucleus/accessing-mongodb-with-datanucleus/target/
+/mf-kundera/accessing-mongodb-with-kundera/target/
