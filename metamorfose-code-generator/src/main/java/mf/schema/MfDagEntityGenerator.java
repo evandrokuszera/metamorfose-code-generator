@@ -87,9 +87,10 @@ public class MfDagEntityGenerator {
                 }
                 
                 addNestingRelationshipFieldsToClass(classMetadata, graphEntity);
-                
-                this.entity.addClassMetadata(classMetadata);
-                
+
+                boolean isRootClassMetadata = (cloneGraph.vertexSet().size() == 1);
+                this.entity.addClassMetadata(classMetadata, isRootClassMetadata);
+
                 // Remove leafVertex that was processed (reducing one vertex from the cloneGraph).            
                 cloneGraph.removeVertex(leafVertex);
             }

@@ -62,7 +62,10 @@ public class MfJpaSchemaGenerator extends MfSchemaGenerator {
                 if (findClassByNameInSchema(classMetadata.getName()) == null) {
                     // create the entity using our model.
                     MfEntity entity = new MfEntity(classMetadata.getName());
-                    entity.addClassMetadata(classMetadata);
+                    if (vertexIterator.hasNext())
+                        entity.addClassMetadata(classMetadata, false);
+                    else
+                        entity.addClassMetadata(classMetadata, true);
                     // add the entity in the schema.
                     this.getMfSchema().addEntity(entity);
                 }

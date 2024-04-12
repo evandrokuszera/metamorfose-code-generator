@@ -38,6 +38,17 @@ public class MfSchema {
         }
         return null;
     }
+
+    public MfEntity getEntity(ClassMetadata classMetadata){
+        for (MfEntity e : entities){
+            for (ClassMetadata clazz : e.getClassMetadataList()){
+                if (clazz == classMetadata){
+                    return e;
+                }
+            }
+        }
+        return null;
+    }
     
     public ClassMetadata getEntityClassMetadata(int id){
         for (MfEntity e : entities){

@@ -17,6 +17,7 @@ import mf.classmetadata.ClassMetadata;
 public class MfEntity {
     private String name;
     private List<ClassMetadata> classMetadataList;
+    private ClassMetadata rootClassMetadata;
 
     public MfEntity(String name) {
         this.name = name;
@@ -31,8 +32,11 @@ public class MfEntity {
         this.name = name;
     }
     
-    public void addClassMetadata(ClassMetadata classMetadataItem){
+    public void addClassMetadata(ClassMetadata classMetadataItem, boolean isRootClassMetadata){
         this.classMetadataList.add(classMetadataItem);
+        if (isRootClassMetadata){
+            this.rootClassMetadata = classMetadataItem;
+        }
     }
     
     public ClassMetadata getClassMetadata(String name){
@@ -62,7 +66,9 @@ public class MfEntity {
     }
     
     public ClassMetadata getRootClassMetadata(){
-        return this.classMetadataList.get(this.classMetadataList.size() - 1);
+        //TODO
+        //return this.classMetadataList.get(this.classMetadataList.size() - 1);
+        return this.rootClassMetadata;
     }
     
     public List<ClassField> getRootClassMetadataPK(){
